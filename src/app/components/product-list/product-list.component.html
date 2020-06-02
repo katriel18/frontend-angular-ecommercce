@@ -1,22 +1,31 @@
-<table class="table">
+<div class="main-content">
+    <div class="section-content section-content-p30">
+        <div class="container-fluid">
+            <div class="row">
+                <div *ngFor="let temp of products" class="col-md-3">
+                    <div class="product-box">
 
-    <thead class="thead-dark">
-        <tr>
-            <td></td>
-            <td>Name</td>
-            <td>Price</td>
-            <td>Units In Stock</td>
-        </tr>
+                        <a routerLink="/products/{{temp.id}}">
+                            <img src="{{temp.imageUrl}}" class="img-responsive">
+                        </a>
 
-    </thead>
-    <tbody>
-        <tr *ngFor="let temp of datos">
+                        <a routerLink="/products/{{temp.id}}">
+                            <h1>{{temp.name}}</h1>
+                        </a>
+                        <div class="price">{{temp.unitPrice | currency:'USD'}}</div>
+                        <a href="#" class="primary-btn">Add to cart</a>
 
-            <td class="align-middle"><img src="{{temp.imageUrl}}" height="50" /></td>
+                    </div>
+                </div>
 
-            <td class="align-middle">{{temp.name}} </td>
-            <td class="align-middle">{{temp.unitPrice | currency:'USD'}}</td>
-            <td class="align-middle">{{temp.unitsInStock}}</td>
-        </tr>
-    </tbody>
-</table>
+                <!--si no hay productos mostrar un mensaje-->
+                <!--if (products is null /undefined) or (products.lenght==0) -->
+                <div *ngIf="products?.length==0" class="alert alert-warning col-md-12" role="alert">
+                    No products found.
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
