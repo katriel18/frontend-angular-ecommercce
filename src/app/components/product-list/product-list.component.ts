@@ -12,9 +12,16 @@ import { ActivatedRoute } from '@angular/router';
 export class ProductListComponent implements OnInit {
 
   products:Product[];
-  currentCategoryId:number;
+  currentCategoryId:number=1;
+  previusCategoryId: number=1;
+  searchMode:boolean=false;
 
-  searchMode:boolean;
+//Propiedades de la paginacion
+  thePageNumber:number=1;
+  thePageSize:number=5;
+  theTotalElements:number=0;
+
+  previousKeyword:String=null;
 
   constructor(private productService:ProductService,private route:ActivatedRoute) { }
 
@@ -48,16 +55,36 @@ export class ProductListComponent implements OnInit {
       this.currentCategoryId=1;
     }
    
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data=>{
-        this.products=data;
-      }
-    )
+
+    if(this.previusCategoryId!=this.currentCategoryId){
+      this.thePageNumber=1;
+    }
+
+    this.previusCategoryId=this.currentCategoryId;
+    console.log(`currentCategoryId=${this.currentCategoryId},thePageNumber=${this.thePageNumber}`);
+
+    this.productService.getProductListPaginate(this.thePageNumber-1,
+      this.thePageSize,
+      this.currentCategoryId).subscribe(
+      
+        this.processResult()
+        
+    );
+  }
+  processResult() {
+    return data=>{
+      this.products=data._embedded.products;
+      this.thePageNumber=data.page.number+1;
+      this.thePageSize=data.page.size;
+
+      this.theTotalElements=data.page.totalElements;
+    }
   }
 
   handleSearchProducts(){
 
       const theKeyword:string=this.route.snapshot.paramMap.get('keyword');
+
 
       this.productService.searchProducts(theKeyword).subscribe(
         data=>{
@@ -68,6 +95,12 @@ export class ProductListComponent implements OnInit {
 
   }
 
+  updatePageSize(pageSize:number){
+    
+  this.thePageSize=pageSize;
+  this.thePageNumber=1;
+  this.listProducts();
+  }
 
 }
  

@@ -28,7 +28,15 @@ private categoryURL='http://ecommerce-18.herokuapp.com/api/product-category';
     const productURL=`${this.baseURL}/${theProductId}`;
     return this.httpClient.get<Product>(productURL);
   }
+ ///////////////////////////////////////////////////////////////////////////
+ getProductListPaginate(thePage:number,thePageSize:number,theCategoryId:number): Observable <GetResponseProducts>{
 
+  const searchUrl=`${this.baseURL}/search/findByCategoryId?id=${theCategoryId}`
+  +`&page=${thePage}&size=${thePageSize}`;
+
+  return this.httpClient.get<GetResponseProducts>(searchUrl);
+
+}
 
   ///////////////////////////////////////////////////////////////////////////
   getProductList(theCategoryId:number): Observable <Product[]>{
@@ -46,11 +54,16 @@ private categoryURL='http://ecommerce-18.herokuapp.com/api/product-category';
 
     return this.newMethod(serchUrl);
   }
+
+  
  
 //////////////////////////REFACTORIZACION//////////////////////////////////////
   private newMethod(serchUrl: string): Observable<Product[]> {
     return this.httpClient.get<GetResponseProducts>(serchUrl).pipe(map(response => response._embedded.products));
   }
+  
+
+ 
 
   ///////////////////////////////////////////////////////////////////////////
   getProductCategories() {
@@ -69,6 +82,12 @@ private categoryURL='http://ecommerce-18.herokuapp.com/api/product-category';
 interface GetResponseProducts{
   _embedded:{
     products:Product[]
+  },
+  page:{
+    size:number,
+    totalElements:number,
+    totalPages:number,
+    number:number,
   }
 
 }
