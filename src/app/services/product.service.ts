@@ -62,7 +62,17 @@ private categoryURL='http://ecommerce-18.herokuapp.com/api/product-category';
     return this.httpClient.get<GetResponseProducts>(serchUrl).pipe(map(response => response._embedded.products));
   }
   
+  ///////////////////////////////////////////////////////////////////////////
+  searchProductsPaginate(thePage:number,thePageSize:number,theKeyword: string): Observable <GetResponseProducts>{
 
+    const searchUrl=`${this.baseURL}/search/findByNameContaining?name=${theKeyword}`
+    +`&page=${thePage}&size=${thePageSize}`;
+  
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
+  
+  }
+  
+   
  
 
   ///////////////////////////////////////////////////////////////////////////
