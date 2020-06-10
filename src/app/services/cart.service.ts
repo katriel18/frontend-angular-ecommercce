@@ -6,6 +6,7 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class CartService {
+  
 
   cartItems:CartItem[]=[];
 
@@ -87,7 +88,41 @@ export class CartService {
   }
 
 
+  /////////////////////////////////////////////////////////////////////////////////////////
+  
+  decrementQuantity(theCarItem: CartItem) {
+    
+    theCarItem.quantity--;
+    if(theCarItem.quantity===0){
+      this.remove(theCarItem);
+
+    }else{
+      this.computeCartTotal();
+    }
+  }
+   /////////////////////////////////////////////////////////////////////////////////////////
+ 
+  remove(theCartItem: CartItem) {
+    const itemIndex=this.cartItems.findIndex(temp=>temp.id===theCartItem.id);
+
+    if(itemIndex>-1){
+
+      this.cartItems.splice(itemIndex,1);
+      this.computeCartTotal();
+    }
+
+
+  }
+
+
 
 
 }
 
+/*
+Splice recibe varios argumentos, el primer parámetro es el indice de inicio, 
+desde donde se realizará la operación.
+
+El siguiente parametro nos sirve para indicar
+ cuantos elementos se eliminaran desde el indice de inicio.
+*/

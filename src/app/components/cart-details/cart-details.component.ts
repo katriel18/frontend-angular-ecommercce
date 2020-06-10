@@ -13,13 +13,16 @@ export class CartDetailsComponent implements OnInit {
   cartItems:CartItem[]=[];
   totalPrice:number=0;
   totalQuantity:number=0;
+
   constructor(private cartService:CartService) { }
 
   ngOnInit(): void {
 
     this.listCartDetails();
+
   }
 
+  /////////////////////////////////////////////////////////////
   listCartDetails() {
 
     this.cartItems=this.cartService.cartItems;
@@ -34,6 +37,17 @@ export class CartDetailsComponent implements OnInit {
     this.cartService.computeCartTotal();
 
   }
+  /////////////////////////////////////////////////////////////
+  incrementQuantity(theCarItem:CartItem){
 
-  
+    this.cartService.addToCart(theCarItem);
+  }
+  /////////////////////////////////////////////////////////////
+  decrementQuantity(theCarItem:CartItem){
+    this.cartService.decrementQuantity(theCarItem);
+  }
+  /////////////////////////////////////////////////////////////
+  remove(theCarItem:CartItem){
+    this.cartService.remove(theCarItem);
+  }
 }
