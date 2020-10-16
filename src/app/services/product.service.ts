@@ -13,9 +13,9 @@ export class ProductService {
 
 //private baseURL='http://localhost:8080/api/products';
 //private baseURL='http://ecommerce-18.herokuapp.com/api/products?size=100';//retorna todos los productos
-private baseURL='http://ecommerce-18.herokuapp.com/api/products';
+private baseURL='https://ecommerce-18.herokuapp.com/api/products';
 
-private categoryURL='http://ecommerce-18.herokuapp.com/api/product-category';
+private categoryURL='https://ecommerce-18.herokuapp.com/api/product-category';
 
   constructor(private httpClient : HttpClient) { }
 
